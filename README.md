@@ -2,154 +2,167 @@
 
 ## Overview
 
-**Project 255** is a small enterprise network design implemented using **Cisco Modeling Labs (CML)**.  
-The topology consists of **five network devices** connecting two company office locations through an Internet Service Provider (ISP) while ensuring redundancy and centralized internet access.
+**Project 255** is a small enterprise network design built using **Cisco Modeling Labs (CML)**.  
+The project simulates a real-world company network connecting two geographically separated locations through an ISP while maintaining redundancy and centralized internet access.
 
-The project demonstrates:
+The design demonstrates practical enterprise networking concepts including:
 
-- Multi-site enterprise connectivity
-- Redundant WAN links
+- Dual WAN redundancy
+- Site-to-site connectivity
 - Centralized internet breakout
-- Resource sharing between locations
-- High availability design principles
+- Server farm hosting
+- High availability architecture
 
 ---
 
-## Network Topology
+## 🌐 Network Topology
+
+Below is the full Project 255 topology created in Cisco Modeling Labs.
+
+![Project 255 Topology](project_255.png)
+
+---
+
+## Network Architecture
 
 The company operates from two locations:
 
-- **Headquarters (HQ)** — Accra
-- **Branch Site** — Tamale
+### 🏢 Accra — Headquarters (HQ)
 
-Both sites connect through a shared ISP infrastructure.
+Accra acts as the **primary internet gateway** for the organization.
 
----
+#### ISP Connectivity
 
-## Accra Headquarters (HQ)
+Two WAN links are provided:
 
-The **Accra site** serves as the company's primary operational location and internet gateway.
+- **Primary Link:** Fiber Optic
+- **Secondary Link:** Microwave Radio (Backup)
 
-### ISP Connectivity
+#### Responsibilities
 
-The ISP provides **two WAN links** to ensure redundancy:
-
-- **Primary Link:** Fiber Optic Connection
-- **Secondary Link:** Microwave Radio Connection
-
-### Key Characteristics
-
-- Full internet access
-- Centralized outbound traffic point
-- Provides internet access for remote sites
-- Acts as the enterprise edge network
+- Provides internet access
+- Routes outbound traffic
+- Allows Tamale servers to reach the internet
+- Enterprise edge routing
 
 ---
 
-## Tamale Branch Site
+### 🏭 Tamale — Branch Site (Server Farm)
 
-The **Tamale site** hosts the company’s **server farm**.
+The Tamale site hosts internal company services and applications.
 
-### Connectivity
+Although connected to the ISP, it **does not directly access the internet**.  
+All internet traffic is routed through the Accra headquarters.
 
-Similar to the HQ, Tamale connects to the ISP using two redundant links:
+#### Hosted Services
 
-- Fiber optic link
-- Microwave radio backup link
-
-### Key Characteristics
-
-- Hosts internal company services
-- No direct internet breakout
-- Internet access routed through Accra HQ
+- ERP System
+- Email Server 1
+- Email Server 2
+- Accounting Platform
+- Social Platform
 
 ---
 
-## Interconnection Through ISP
-
-The ISP network provides Layer 3 connectivity between both locations.
-
-### Resource Sharing
-
-The design allows:
-
-- ✅ Accra users to access servers hosted in Tamale
-- ✅ Tamale servers to reach the internet via Accra HQ
-- ✅ Secure inter-site communication
-
----
-
-## Traffic Flow Design
+## 🔁 Traffic Flow Design
 
 ### Internet Access
+Tamale → ISP → Accra HQ → Internet
 
-All internet-bound traffic from Tamale is routed through the Accra headquarters.
 
 ### Server Access
+Accra Users → ISP → Tamale Server Farm
 
-HQ users can directly access enterprise services located in Tamale.
 
 ---
 
-## Redundancy Strategy
+## 🖥️ Server Services Verification
 
-Both locations implement link redundancy:
+Below are screenshots showing each service running on different ports from the Tamale server network.
+
+---
+
+### ERP Service (Port 8001)
+
+![ERP Service](erp.png)
+
+---
+
+### Email Server 1 (Port 8002)
+
+![Email Server 1](email1.png)
+
+---
+
+### Email Server 2 (Port 8003)
+
+![Email Server 2](email2.png)
+
+---
+
+### Accounting Service (Port 8004)
+
+![Accounting Service](accounting.png)
+
+---
+
+### Social Platform (Port 8005)
+
+![Social Platform](social.png)
+
+---
+
+## 🔄 Redundancy Strategy
 
 | Site   | Primary Link | Backup Link |
 |--------|-------------|-------------|
 | Accra  | Fiber       | Microwave   |
 | Tamale | Fiber       | Microwave   |
 
-Benefits include:
+### Benefits
 
 - Automatic failover capability
-- Increased network uptime
-- Improved reliability
+- Increased uptime
+- Reliable enterprise connectivity
 
 ---
 
-## Design Objectives
+## 🧩 Devices Used
 
-The network was designed to achieve:
-
-- High availability WAN connectivity
-- Centralized security and internet control
-- Efficient resource sharing
-- Scalable enterprise architecture
-- Realistic enterprise simulation in CML
-
----
-
-## Devices Used
-
-The lab consists of **five network devices**:
+The lab consists of five main devices:
 
 1. Accra Edge Router
 2. Tamale Edge Router
 3. ISP Core Router
-4. Accra Internal Device
-5. Tamale Server Network Device
+4. Accra LAN Client
+5. Tamale Server Network
 
 ---
 
-## Technologies Demonstrated
+## ⚙️ Technologies Demonstrated
 
-- WAN redundancy
-- Routed ISP interconnection
-- Centralized internet gateway
-- Enterprise traffic engineering
-- Cisco Modeling Labs simulation
+- WAN Redundancy
+- Inter-site Routing
+- Centralized Internet Gateway
+- Enterprise Network Simulation
+- Cisco Modeling Labs (CML)
 
 ---
 
-## Expected Outcomes
+## ✅ Expected Outcome
 
 After implementation:
 
 - Accra has direct internet connectivity.
-- Tamale accesses the internet through Accra.
-- Both sites communicate seamlessly.
-- Network remains operational even if one WAN link fails.
+- Tamale accesses the internet via Accra.
+- HQ users reach Tamale-hosted services.
+- Network survives single WAN link failure.
+
+---
+
+## 📂 Full Project
+
+Configurations and lab implementation are available in this repository.
 
 ---
 
@@ -159,7 +172,8 @@ Project 255 demonstrates a practical enterprise network architecture using Cisco
 By combining redundant WAN links with centralized internet access, the design achieves reliability, scalability, and operational efficiency suitable for real-world deployments.
 
 ---
+## Author
 
-**Author:** Project 255 Lab  
-**Platform:** Cisco Modeling Labs (CML)  
-**Purpose:** Enterprise Network Design Simulation
+**Edem Ozone**  
+Network Engineer | CML Lab Simulation  
+Project 255 — Enterprise Network Design
