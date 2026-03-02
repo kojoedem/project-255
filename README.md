@@ -1,75 +1,165 @@
-# Project 255
+# Project 255 — Dual-Site Enterprise Network Design (Cisco Modeling Labs)
 
-Project 255 is a small network design project created in Cisco Modeling Labs (CML) with a total of five devices.
+## Overview
 
-The company has two office locations:
+**Project 255** is a small enterprise network design implemented using **Cisco Modeling Labs (CML)**.  
+The topology consists of **five network devices** connecting two company office locations through an Internet Service Provider (ISP) while ensuring redundancy and centralized internet access.
 
-- **Headquarters (HQ)** located in Accra
-- **Branch site** located in Tamale
+The project demonstrates:
 
-## Accra (HQ)
-
-The Accra headquarters has an internet connection from an ISP. The ISP provides two links to the Accra site:
-
-- **Primary link:** Fiber optic
-- **Secondary link:** Microwave radio
-
-The Accra site has full internet access.
-
-## Tamale Site
-
-The Tamale site hosts the company’s server farm. It is connected to the same ISP using two links, similar to the Accra site. However, the Tamale site does not have a direct internet connection.
-
-## Interconnection Between Sites
-
-The ISP connects both sites together through its network, allowing them to share common resources:
-
-- The Accra site can access all servers hosted in Tamale.
-- The Tamale servers can access the internet through the Accra site.
-
-This design ensures redundancy at both locations while maintaining centralized internet access through the Accra headquarters.
+- Multi-site enterprise connectivity
+- Redundant WAN links
+- Centralized internet breakout
+- Resource sharing between locations
+- High availability design principles
 
 ---
 
 ## Network Topology
 
-![Project 255 Topology](project_255.png)
+The company operates from two locations:
 
+- **Headquarters (HQ)** — Accra
+- **Branch Site** — Tamale
 
-## Server Infrastructure
+Both sites connect through a shared ISP infrastructure.
 
-The web server is an Ubuntu Server configured to simulate multiple internal company services.  
-These services are hosted on different port numbers to mimic real-world enterprise servers.
+---
 
-### Hosted Services
+## Accra Headquarters (HQ)
 
-The following services are configured on the Ubuntu server:
+The **Accra site** serves as the company's primary operational location and internet gateway.
 
-- **Port 8081** → ERP System  
-- **Port 8082** → Email Server 1  
-- **Port 8083** → Email Server 2  
-- **Port 8084** → Social Platform  
-- **Port 8085** → Accounting System  
+### ISP Connectivity
 
-These websites are created to mimic actual production servers within an organization.
+The ISP provides **two WAN links** to ensure redundancy:
 
-All services are accessible using the server’s IP address followed by the respective port number.
+- **Primary Link:** Fiber Optic Connection
+- **Secondary Link:** Microwave Radio Connection
 
-**Example:**
-##
-**ERP**
-![erp](erp.png)
+### Key Characteristics
 
-##
-**CORPORATE EMAIL1**
-![email1](email1.png)
+- Full internet access
+- Centralized outbound traffic point
+- Provides internet access for remote sites
+- Acts as the enterprise edge network
 
-##
-**CORPORATE EMAIL2**
-![email2](email2.png)
-##
-**COMPANY SOCAIL PLATFORM**
-![erp](social.png)
-##
-**ACCOUNITING SYSTEM**
-![erp](accounting.png)
+---
+
+## Tamale Branch Site
+
+The **Tamale site** hosts the company’s **server farm**.
+
+### Connectivity
+
+Similar to the HQ, Tamale connects to the ISP using two redundant links:
+
+- Fiber optic link
+- Microwave radio backup link
+
+### Key Characteristics
+
+- Hosts internal company services
+- No direct internet breakout
+- Internet access routed through Accra HQ
+
+---
+
+## Interconnection Through ISP
+
+The ISP network provides Layer 3 connectivity between both locations.
+
+### Resource Sharing
+
+The design allows:
+
+- ✅ Accra users to access servers hosted in Tamale
+- ✅ Tamale servers to reach the internet via Accra HQ
+- ✅ Secure inter-site communication
+
+---
+
+## Traffic Flow Design
+
+### Internet Access
+
+All internet-bound traffic from Tamale is routed through the Accra headquarters.
+
+### Server Access
+
+HQ users can directly access enterprise services located in Tamale.
+
+---
+
+## Redundancy Strategy
+
+Both locations implement link redundancy:
+
+| Site   | Primary Link | Backup Link |
+|--------|-------------|-------------|
+| Accra  | Fiber       | Microwave   |
+| Tamale | Fiber       | Microwave   |
+
+Benefits include:
+
+- Automatic failover capability
+- Increased network uptime
+- Improved reliability
+
+---
+
+## Design Objectives
+
+The network was designed to achieve:
+
+- High availability WAN connectivity
+- Centralized security and internet control
+- Efficient resource sharing
+- Scalable enterprise architecture
+- Realistic enterprise simulation in CML
+
+---
+
+## Devices Used
+
+The lab consists of **five network devices**:
+
+1. Accra Edge Router
+2. Tamale Edge Router
+3. ISP Core Router
+4. Accra Internal Device
+5. Tamale Server Network Device
+
+---
+
+## Technologies Demonstrated
+
+- WAN redundancy
+- Routed ISP interconnection
+- Centralized internet gateway
+- Enterprise traffic engineering
+- Cisco Modeling Labs simulation
+
+---
+
+## Expected Outcomes
+
+After implementation:
+
+- Accra has direct internet connectivity.
+- Tamale accesses the internet through Accra.
+- Both sites communicate seamlessly.
+- Network remains operational even if one WAN link fails.
+
+---
+
+## Conclusion
+
+Project 255 demonstrates a practical enterprise network architecture using Cisco Modeling Labs.  
+By combining redundant WAN links with centralized internet access, the design achieves reliability, scalability, and operational efficiency suitable for real-world deployments.
+
+---
+
+**Author:** Project 255 Lab  
+**Platform:** Cisco Modeling Labs (CML)  
+**Purpose:** Enterprise Network Design Simulation
