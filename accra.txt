@@ -1,0 +1,218 @@
+Current configuration : 5123 bytes
+!
+version 17.16
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname ACCRA-HQ
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip dhcp excluded-address 172.16.10.1 172.16.10.20
+!
+ip dhcp pool ACCRA-LAN
+ network 172.16.10.0 255.255.255.0
+ default-router 172.16.10.10 
+ dns-server 8.8.8.8 8.8.4.4 
+ domain-name accra.local
+ lease 7
+!
+!
+!
+ip cef
+login on-success log
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-131184671
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-131184671
+ revocation-check none
+ rsakeypair TP-self-signed-131184671
+ hash sha512
+!
+!
+crypto pki certificate chain TP-self-signed-131184671
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0D050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333131 38343637 31301E17 0D323630 33303430 39333935 
+  335A170D 33363033 30333039 33393533 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3133 31313834 
+  36373130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 E36A9014 9C08DC0B 756EBFC9 38B07050 89B04267 92C0D2F2 DC857AB6 
+  B530684F 7B7FF42D D430E6E5 9BCC3F3C 7B7612AF CAC90A11 E1604251 84B0CB52 
+  E0DCF4DB 2A1440DB 03510D20 36982C6A A4BBA7EA C83C884C 7CD044DA FEA999F0 
+  C5BB09A9 AD713317 35B87EFC 4A9CF524 A108CD9F 736733EE 53590E43 F3E64434 
+  3F7B7342 EAD41CA8 90C4DE78 AFD324AE 9221E942 BAB4E172 A37585F4 19209A19 
+  C7B0CED2 D789D19C 4B40D767 49D3889C 02FF5335 D27BB8D9 82260C18 9E1A0775 
+  D543A8AC 7EFCCF7F E7D99692 C6FA2F2D 3151E9D9 F01F5C40 D0B88A47 82F22DE2 
+  66A40A02 AED6B2FB B1F02C20 E0DD6BC7 980569E7 208D10D0 BE0D268B C4920337 
+  E3B3E111 02030100 01A35330 51301D06 03551D0E 04160414 4E1B0E11 836F6B5C 
+  6CEADAAA EA570054 E5548ADE 301F0603 551D2304 18301680 144E1B0E 11836F6B 
+  5C6CEADA AAEA5700 54E5548A DE300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010D05 00038201 01003ED2 D68F3DA7 7CE8ABFC 2983D886 
+  D0493D81 80757F61 1025E90E 9A6DC0A2 3E3C4C05 1A32E28E F8D1A42E 0286600B 
+  6A33FC98 C901B96A C7C2B021 872298EF E4B77768 46C85C1A 6FF98F47 222AF8A1 
+  1A031666 06D78F78 27CE59F8 8465927E C3226A82 ABD6E21F 5D5ED782 A5E1684F 
+  959FEBB6 C9496984 CF3FBD21 CFC0B15B 1180EFF8 23E01ECB 36B8C03D C561594E 
+  E205936E 5CF82854 E8F1F07B D5C7C078 3A786E83 73382266 C6D68400 D98EFF1D 
+  900DC91E 42958B23 2DBA3218 25BC82C9 00E89AD5 8FC2734F 10D86BB4 DC9B7153 
+  E63B09B0 086FD21D 92B483DC 1C5C7F43 2D6F9AA1 A9493DB8 72795C86 2E6D8955 
+  619A53A3 4AB422F6 78F1DD7D 83C051EE 7863
+        quit
+!
+!
+memory free low-watermark processor 27554
+!
+!
+spanning-tree mode rapid-pvst
+!
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description loopback-zero
+ ip address 10.10.10.11 255.255.255.255
+!
+interface Tunnel0
+ ip address 172.16.100.1 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf 110 area 0
+ tunnel source 10.100.100.1
+ tunnel destination 10.200.100.2
+!
+interface Ethernet0/0
+ description accra-e0/0-to-isp-e0/0
+ ip address 10.100.100.1 255.255.255.252
+!
+interface Ethernet0/1
+ description accra-e0/1-to-isp-e0/1
+ ip address 10.128.128.2 255.255.255.252
+!
+interface Ethernet0/2
+ description accra-e0/2-to-lan
+ ip address 172.16.10.10 255.255.255.0
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 110
+ router-id 10.10.10.11
+ network 10.10.10.11 0.0.0.0 area 0
+ network 10.100.100.0 0.0.0.3 area 0
+ network 10.120.120.0 0.0.0.3 area 0
+ network 10.128.128.0 0.0.0.3 area 0
+ network 10.200.100.0 0.0.0.3 area 0
+ network 172.16.10.0 0.0.0.255 area 0
+!
+router bgp 6559
+ bgp router-id 2.2.2.2
+ bgp log-neighbor-changes
+ neighbor 10.10.10.200 remote-as 6559
+ neighbor 10.10.10.200 update-source Loopback0
+ neighbor 10.100.100.2 remote-as 6998
+ neighbor 10.128.128.1 remote-as 6998
+ !
+ address-family ipv4
+  network 10.10.10.11 mask 255.255.255.255
+  network 172.16.10.0 mask 255.255.255.0
+  neighbor 10.10.10.200 activate
+  neighbor 10.10.10.200 default-originate
+  neighbor 10.100.100.2 activate
+  neighbor 10.100.100.2 send-community extended
+  neighbor 10.100.100.2 soft-reconfiguration inbound
+  neighbor 10.100.100.2 route-map PRIMARY-LINK out
+  neighbor 10.128.128.1 activate
+  neighbor 10.128.128.1 send-community extended
+  neighbor 10.128.128.1 soft-reconfiguration inbound
+  neighbor 10.128.128.1 route-map #SECONDARY-LINK out
+ exit-address-family
+ !
+ address-family ipv4 multicast
+ exit-address-family
+ !
+ address-family vpnv4
+ exit-address-family
+!
+ip forward-protocol nd
+ip forward-protocol udp
+!
+!
+ip http server
+ip http secure-server
+ip ssh bulk-mode 131072
+!
+ip prefix-list INTERNET seq 10 permit 0.0.0.0/0
+no logging btrace
+route-map SECONDARY-LINK permit 20 
+ set local-preference 100
+ set as-path prepend 6559 6559 6559 6559
+!
+route-map INTERNET-TO-TAMALE permit 10 
+ match ip address prefix-list INTERNET
+!
+route-map PRIMARY-LINK permit 20 
+ set local-preference 300
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+!
+!
+!
+!
+end
+
+ACCRA-HQ#

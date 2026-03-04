@@ -1,0 +1,230 @@
+ISP-OFFICE#sh run
+Building configuration...
+
+Current configuration : 5824 bytes
+!
+version 17.16
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname ISP-OFFICE
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+login on-success log
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-131184664
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-131184664
+ revocation-check none
+ rsakeypair TP-self-signed-131184664
+ hash sha512
+!
+!
+crypto pki certificate chain TP-self-signed-131184664
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0D050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333131 38343636 34301E17 0D323630 33303430 39333932 
+  335A170D 33363033 30333039 33393233 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3133 31313834 
+  36363430 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 B04706C9 31C19CEE AA1F9B4A 634104BC 2F14A10F 711A2AC2 869251B1 
+  1ECC88D1 A08B039D D73081A4 AD5FC473 B2E6D2DF CC9CA29F E1D7D753 8FFEFDB5 
+  E85391E8 ED448343 A84E03FD F40AACE3 59C89E0F 8648AD9A A20480BF 879D53EA 
+  70E078C1 E48F904B B42A877A 323469B5 20C572B1 2268A88C BDB8BA20 29C4B278 
+  49287FA4 3B3C2AD1 716F24FF F2F29251 AE38673E 869FCC89 EBFE7A68 3260629F 
+  9E170737 29BAEC79 89039F54 25761D1B D3E92606 115EDD36 BFC45066 DACC3244 
+  AA929357 DE261447 9B5A9604 92A2D43B 117C4961 B7D1BD49 822CCED0 58E4833C 
+  0B9B097C 9B6A03C5 11106B6B 9A29A79A 4D530AA1 EC1C0BB7 FEB689DF F0829C7C 
+  2BADA6A9 02030100 01A35330 51301D06 03551D0E 04160414 6AD8284D 8AC74C9B 
+  4D93413C 696D84EB 31C90F9D 301F0603 551D2304 18301680 146AD828 4D8AC74C 
+  9B4D9341 3C696D84 EB31C90F 9D300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010D05 00038201 01005279 7EC2AB31 D592EF63 C5FA78DD 
+  CC5E7060 DD8BF629 F24EA78F DEF4A700 FBF26F0B 4E4206AB 420AADF9 008ABC9D 
+  6E6979E1 FD90CCDA 7782A675 1994DF0C 97145AA3 3CB78290 C1BFBE88 0C734A97 
+  EB14D6D2 D68712DA D8A10E63 C88889A3 71FFD171 62BE2364 837D273F D7D4ECF8 
+  72837189 E254396E F03D9321 824D68F7 9410971C 9288B720 DD201C17 0C90E481 
+  A636B805 621E7B53 6E7FC2DD DC0F42E8 DAFBB37C C22409A8 509EF723 52E7BC44 
+  3ED86081 BE30DB67 0C8EBB1F EF81129E 2EE3BF9A 612CE94F D670D83C C23AB5DF 
+  F45D5AE9 ABD4B50E 9A6D8C42 40E9D0DC 9B7FEC8D 3C59A67F 1C098778 CF014586 
+  3CDA4131 BD20A535 2F6E7BA8 CDCFA6FA BAC8
+        quit
+!
+!
+memory free low-watermark processor 27554
+!
+!
+spanning-tree mode rapid-pvst
+!
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ description isp-e0/0-to-accra-e0/0
+ ip address 10.100.100.2 255.255.255.252
+ ip nat inside
+!
+interface Ethernet0/1
+ description isp-e0/1-to-accra-e0/1
+ ip address 10.128.128.1 255.255.255.252
+ ip nat inside
+!
+interface Ethernet0/2
+ description isp-e0/2-to-tamala-e0/0
+ ip address 10.200.100.1 255.255.255.252
+!
+interface Ethernet0/3
+ description isp-e0/3-to-tamale-e0/1
+ ip address 10.120.120.1 255.255.255.252
+!
+interface Ethernet1/0
+ description link-to-internet
+ ip address dhcp
+ ip nat outside
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+router bgp 6998
+ bgp router-id 1.1.1.1
+ bgp log-neighbor-changes
+ network 0.0.0.0
+ network 10.100.100.0 mask 255.255.255.252
+ network 10.120.120.0 mask 255.255.255.252
+ network 10.128.128.0 mask 255.255.255.252
+ network 10.200.100.0 mask 255.255.255.252
+ redistribute static
+ neighbor 10.100.100.1 remote-as 6559
+ neighbor 10.100.100.1 description to-accra-fiber
+ neighbor 10.100.100.1 send-community extended
+ neighbor 10.100.100.1 as-override
+ neighbor 10.100.100.1 soft-reconfiguration inbound
+ neighbor 10.100.100.1 route-map TO_ACCRA out
+ neighbor 10.120.120.2 remote-as 6559
+ neighbor 10.120.120.2 send-community extended
+ neighbor 10.120.120.2 as-override
+ neighbor 10.120.120.2 soft-reconfiguration inbound
+ neighbor 10.120.120.2 route-map TO_TAMALE out
+ neighbor 10.128.128.2 remote-as 6559
+ neighbor 10.128.128.2 description to-accra-microwave
+ neighbor 10.128.128.2 send-community extended
+ neighbor 10.128.128.2 as-override
+ neighbor 10.128.128.2 soft-reconfiguration inbound
+ neighbor 10.128.128.2 route-map TO_ACCRA out
+ neighbor 10.200.100.2 remote-as 6559
+ neighbor 10.200.100.2 description to-tamale-fiber
+ neighbor 10.200.100.2 send-community extended
+ neighbor 10.200.100.2 as-override
+ neighbor 10.200.100.2 soft-reconfiguration inbound
+ neighbor 10.200.100.2 route-map TO_TAMALE out
+!
+ip forward-protocol nd
+ip forward-protocol udp
+!
+!
+ip http server
+ip http secure-server
+ip nat inside source list 1 interface Ethernet1/0 overload
+ip ssh bulk-mode 131072
+!
+ip prefix-list DEFAULT-OUT seq 10 permit 0.0.0.0/0
+!
+ip prefix-list TO_ACCRA seq 10 permit 10.100.100.0/30
+ip prefix-list TO_ACCRA seq 11 permit 10.120.120.0/30
+ip prefix-list TO_ACCRA seq 12 permit 10.128.128.0/30
+ip prefix-list TO_ACCRA seq 17 permit 192.168.99.0/24
+ip prefix-list TO_ACCRA seq 18 permit 10.10.10.200/32
+ip prefix-list TO_ACCRA seq 20 permit 0.0.0.0/0
+ip prefix-list TO_ACCRA seq 21 permit 10.200.100.0/30
+!
+ip prefix-list TO_TAMALE seq 10 permit 10.100.100.0/30
+ip prefix-list TO_TAMALE seq 11 permit 10.120.120.0/30
+ip prefix-list TO_TAMALE seq 12 permit 10.128.128.0/30
+ip prefix-list TO_TAMALE seq 14 permit 10.200.100.0/30
+ip prefix-list TO_TAMALE seq 16 permit 172.16.10.0/24
+ip prefix-list TO_TAMALE seq 18 permit 10.10.10.11/32
+no logging btrace
+ip access-list standard 1
+ 10 permit any
+route-map TO_ACCRA permit 10 
+ match ip address prefix-list TO_ACCRA
+!
+route-map TO_TAMALE permit 10 
+ match ip address prefix-list TO_TAMALE
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+!
+!
+!
+!
+end
+
+ISP-OFFICE#

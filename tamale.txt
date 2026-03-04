@@ -1,0 +1,194 @@
+TAMALE-WEB-SERVERE#sh run 
+Building configuration...
+
+Current configuration : 4305 bytes
+!
+version 17.16
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname ISP-OFFICE
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+login on-success log
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-131184670
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-131184670
+ revocation-check none
+ rsakeypair TP-self-signed-131184670
+ hash sha512
+!
+!
+crypto pki certificate chain TP-self-signed-131184670
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 0D050030 
+  30312E30 2C060355 04030C25 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333131 38343637 30301E17 0D323630 33303430 39333932 
+  385A170D 33363033 30333039 33393238 5A303031 2E302C06 03550403 0C25494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3133 31313834 
+  36373030 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 8B88071F 75F92C16 C8EDD911 9EACED61 756DA2F4 6ED1DB43 F7B1317F 
+  C6B14257 2150AA61 63029FAA 58E87A17 731EEEB7 D3E67402 956DE879 9B77FF93 
+  A8AA73E5 B4C2EE5F 975C6060 A37E36A1 19D0AC7F 6F4CA69A 972B4AA3 326817E0 
+  391C6DF0 40E4F2D0 53B0E757 7EE0BFC5 8E7A6E58 4E7E5C95 BC02D93A 8FBDBCBB 
+  80C588EE 62CB0408 EDF0FAF1 DFF9CFAD 50A71F5D 5C1D9D13 A67C4B53 67F26541 
+  90DA2426 2851A747 04BF962E 90B51A90 E6159184 4E1AFAF6 3AC11306 F4AE265C 
+  DA554C26 43C11EFC 16414024 4E7ACA96 32FBA45C 78E062F2 A1B7E021 6EDD7087 
+  37BD9713 EABC9E4D 8E65E711 35A83EDA 76521DDE 8A08B365 4E19620C F6297D23 
+  5ED07B6F 02030100 01A35330 51301D06 03551D0E 04160414 B14EF359 39CF9B24 
+  53D32EAA BB636293 DC3FEBD3 301F0603 551D2304 18301680 14B14EF3 5939CF9B 
+  2453D32E AABB6362 93DC3FEB D3300F06 03551D13 0101FF04 05300301 01FF300D 
+  06092A86 4886F70D 01010D05 00038201 01002D05 C9F808D7 1AB3EE73 FDD84480 
+  38DC8027 C2D85691 0E8251F3 B4D8C842 3DB168DF 4D46C819 A18AFB72 5E0E94C3 
+  905DFE38 33083D05 5E94F329 1B97D5FC 407D2CA8 C392F4ED AD52A35C 05CB0EF2 
+  5D57E2B7 B53FC85C 00492263 3040F65B 8E12FEBD A737A004 6FA06DE5 4B36E207 
+  C6642645 5D62D165 844ED3E0 BF90E107 A415EA4B A1A3048D DB2E4D63 BF715EF2 
+  F06847C5 E661251B A0815749 5E6511F4 8D095767 3BBA656E E9C73E89 EB49BFFA 
+  E5881091 044FA557 712C4256 4701ECE8 07D37368 60D23507 4C0CBF91 5FBD5A93 
+  3C5B9D72 5F37C9CE 160ABCD1 A064162B 491A7F81 9518E7D2 19B9DFA1 CACB884B 
+  3F5CE69E 343E1838 0F6A58D7 13B1AA3E 65A4
+        quit
+!
+!
+memory free low-watermark processor 27554
+!
+!
+spanning-tree mode rapid-pvst
+!
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description loopback-zero
+ ip address 10.10.10.200 255.255.255.255
+!
+interface Tunnel0
+ ip address 172.16.100.2 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf 110 area 0
+ tunnel source 10.200.100.2
+ tunnel destination 10.100.100.1
+!
+interface Ethernet0/0
+ description isp-e0/0-to-accra-e0/0
+ ip address 10.100.100.2 255.255.255.252
+ ip nat inside
+!
+interface Ethernet0/1
+ description isp-e0/1-to-accra-e0/1
+ ip address 10.128.128.1 255.255.255.252
+ ip nat inside
+!
+interface Ethernet0/2
+ description isp-e0/2-to-tamala-e0/0
+ ip address 10.200.100.1 255.255.255.252
+!
+interface Ethernet0/3
+ description isp-e0/3-to-tamale-e0/1
+ ip address 10.120.120.1 255.255.255.252
+ shutdown
+!
+router ospf 110
+ router-id 10.10.10.200
+ network 10.10.10.200 0.0.0.0 area 0
+ network 10.100.100.0 0.0.0.3 area 0
+ network 10.120.120.0 0.0.0.3 area 0
+ network 10.128.128.0 0.0.0.3 area 0
+ network 10.200.100.0 0.0.0.3 area 0
+ network 192.168.99.0 0.0.0.255 area 0
+!
+router bgp 6559
+ bgp router-id 3.3.3.3
+ bgp log-neighbor-changes
+ neighbor 10.10.10.11 remote-as 6559
+ neighbor 10.10.10.11 update-source Loopback0
+ !
+ address-family ipv4
+  network 10.10.10.200 mask 255.255.255.255
+  network 192.168.99.0
+  neighbor 10.10.10.11 activate
+ exit-address-family
+ !
+ address-family vpnv4
+ exit-address-family
+!
+ip forward-protocol nd
+ip forward-protocol udp
+!
+!
+ip http server
+ip http secure-server
+ip ssh bulk-mode 131072
+no logging btrace
+route-map SECONDARY-LINK permit 20 
+ set as-path prepend 6559 6559 6559 6559
+!
+route-map PRIMARY-LINK permit 20 
+ set local-preference 5000
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+!
+!
+!
+!
+end
